@@ -13,25 +13,44 @@ A FastAPI-based backend service integrated with DynamoDB and AWS SES. The projec
 
 ## Directory Structure
 
+
 ```
 .
 ├── src
 │   ├── db
+│   │   ├── dynamo.py                # DynamoDB connection and operations
+│   │   └── __init__.py
 │   ├── models
+│   │   ├── dynamo_items.py          # DynamoDB item schemas
+│   │   ├── query_inputs.py          # Input models for queries
+│   │   ├── base.py                  # Shared base models
+│   │   ├── crm_items.py             # CRM-related models
+│   │   └── __init__.py
 │   ├── routers
+│   │   ├── email_routers.py         # Email API endpoints
+│   │   ├── user_routers.py          # User API endpoints
+│   │   ├── event_routers.py         # Event API endpoints
+│   │   └── __init__.py
 │   ├── services
+│   │   ├── user_services.py         # Business logic for user operations
+│   │   ├── email_services.py        # Business logic for sending/tracking emails
+│   │   ├── event_services.py        # Business logic for event handling
+│   │   └── __init__.py
 │   ├── utils
-│   ├── main.py
-│   └── config.py
+│   │   ├── email_utils.py           # Utility functions for emails
+│   │   ├── logger_utils.py          # Logging setup and helpers
+│   │   └── __init__.py
+│   ├── main.py                      # FastAPI app entry point
+│   └── config.py                    # Application configuration
 ├── test
-│   ├── push_test_data copy.py
-│   ├── push_test_data.py
-│   ├── create_user_table.py
-│   ├── create_event_table.py
-│   ├── test_queries.py
-│   └── test_send_emails.py
-├── README.md
-└── requirements.txt
+│   ├── push_test_data copy.py       # Backup or alternative test data script
+│   ├── push_test_data.py            # Inserts mock data into DynamoDB
+│   ├── create_user_table.py         # Creates user table in DynamoDB
+│   ├── create_event_table.py        # Creates event table in DynamoDB
+│   ├── test_queries.py              # Tests querying data from DynamoDB
+│   └── test_send_emails.py          # Tests email sending through SES
+├── README.md                        # Project documentation
+└── requirements.txt                 # List of required Python packages
 ```
 
 ## Installation
