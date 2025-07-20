@@ -1,4 +1,4 @@
-# Project Name
+# EventManagementCRM
 
 A FastAPI-based backend service integrated with DynamoDB and AWS SES. The project features modular structure, clean service separation, and support for email sending and tracking.
 
