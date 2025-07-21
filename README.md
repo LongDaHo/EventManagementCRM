@@ -50,6 +50,7 @@ A FastAPI-based backend service integrated with DynamoDB and AWS SES. The projec
 │   └── test_send_emails.py          # Tests email sending through SES
 ├── README.md                        # Project documentation
 └── requirements.txt                 # List of required Python packages
+└── .pre-commit-config.yaml
 ```
 
 ## Installation
