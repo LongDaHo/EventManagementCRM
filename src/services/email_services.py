@@ -1,13 +1,16 @@
 import json
-from fastapi import Request, Header
 from typing import List
+
 import httpx
+from fastapi import Header, Request
+
 from models.query_inputs import EmailRecipientQueryInput, UserQueryInput
 from services.user_services import get_user_based_on_query
 from utils.email_utils import send_email_via_ses
 from utils.logger_utils import get_logger
 
 logger = get_logger(__name__)
+
 
 async def send_email(queries: List[EmailRecipientQueryInput]):
     user_query_inputs = []
@@ -18,13 +21,14 @@ async def send_email(queries: List[EmailRecipientQueryInput]):
             city=query.city,
             state=query.state,
             minEventAttendedCount=query.minEventAttendedCount,
-            maxEventAttendedCount=query.maxEventAttendedCount,  
+            maxEventAttendedCount=query.maxEventAttendedCount,
         )
         user_query_inputs.append(user_query_input)
     responses = await get_user_based_on_query(user_query_inputs)
     for response in responses:
-        for user in response['users']:
-            await send_email_via_ses(user['email'], query.subject, query.body)
+        for user in response["users"]:
+            await send_email_via_ses(user["email"], query.subject, query.body)
+
 
 async def receive_sns(request: Request, x_amz_sns_message_type: str = Header(None)):
     body = await request.json()
@@ -48,7 +52,10 @@ async def receive_sns(request: Request, x_amz_sns_message_type: str = Header(Non
         elif event_type == "Bounce":
             logger.info("❌ Email bounced:", sns_message["bounce"]["bouncedRecipients"])
         elif event_type == "Complaint":
-            logger.info("⚠️ Complaint received:", sns_message["complaint"]["complainedRecipients"])
+            logger.info(
+                "⚠️ Complaint received:",
+                sns_message["complaint"]["complainedRecipients"],
+            )
 
         return {"message": "Notification processed"}
 

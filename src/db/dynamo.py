@@ -1,24 +1,24 @@
 import boto3
-from botocore.exceptions import (
-    EndpointConnectionError,
-    NoCredentialsError,
-    ClientError,
-    BotoCoreError
-)
+from botocore.exceptions import (BotoCoreError, ClientError,
+                                 EndpointConnectionError, NoCredentialsError)
 
-from utils.logger_utils import get_logger
 from config import settings
+from utils.logger_utils import get_logger
 
 logger = get_logger(__file__)
 
+
 class DynamoConnector:
     """Singleton class to connect to DynamoDB database."""
+
     _instance = None
-    
+
     def __new__(cls):
         if cls._instance is None:
             try:
-                cls._instance = boto3.resource('dynamodb', region_name=settings.aws_region)
+                cls._instance = boto3.resource(
+                    "dynamodb", region_name=settings.aws_region
+                )
                 logger.info("✅ DynamoDB connection is OK!")
             except EndpointConnectionError as e:
                 logger.error(f"❌ Connection error: {e}")
@@ -31,7 +31,6 @@ class DynamoConnector:
             except Exception as e:
                 logger.error(f"❌ Unexpected error: {e}")
         return cls._instance
-        
-    
+
 
 dynamo_connector = DynamoConnector()

@@ -1,15 +1,16 @@
-from uuid import UUID
 from datetime import datetime
-from typing import Optional, ClassVar
+from typing import ClassVar, Optional
 
-from models.base import BaseDynamoModel
-from db.dynamo import dynamo_connector
 from config import settings
+from db.dynamo import dynamo_connector
+from models.base import BaseDynamoModel
+
 
 class UserPersonalInfo(BaseDynamoModel):
     """
     User personal information model for the application.
     """
+
     id: str
     firstName: str
     lastName: str
@@ -21,20 +22,22 @@ class UserPersonalInfo(BaseDynamoModel):
 
     def to_payload(self):
         return {
-            'PK': f'USER#{self.id}',
-            'SK': 'USERINFO',
-            'firstName': self.firstName,
-            'lastName': self.lastName,
-            'phoneNumber': self.phoneNumber,
-            'email': self.email,
-            'avatar': self.avatar,
-            'gender': self.gender,
+            "PK": f"USER#{self.id}",
+            "SK": "USERINFO",
+            "firstName": self.firstName,
+            "lastName": self.lastName,
+            "phoneNumber": self.phoneNumber,
+            "email": self.email,
+            "avatar": self.avatar,
+            "gender": self.gender,
         }
-    
+
+
 class UserProfessionalInfo(BaseDynamoModel):
     """
     User professional information model for the application.
     """
+
     id: str
     jobTitle: str
     company: str
@@ -44,18 +47,20 @@ class UserProfessionalInfo(BaseDynamoModel):
 
     def to_payload(self):
         return {
-            'PK': f'USER#{self.id}',
-            'SK': 'USERPROF',
-            'jobTitle': self.jobTitle,
-            'company': self.company,
-            'city': self.city,
-            'state': self.state,
+            "PK": f"USER#{self.id}",
+            "SK": "USERPROF",
+            "jobTitle": self.jobTitle,
+            "company": self.company,
+            "city": self.city,
+            "state": self.state,
         }
+
 
 class UserEventCount(BaseDynamoModel):
     """
     User event count model for the application.
     """
+
     id: str
     hostedEvents: int
     attendedEvents: int
@@ -63,67 +68,71 @@ class UserEventCount(BaseDynamoModel):
 
     def to_payload(self):
         return {
-            'PK': f'USER#{self.id}',
-            'SK': 'USEREVENTCOUNT',
-            'hostedEvents': self.hostedEvents,
-            'attendedEvents': self.attendedEvents,
+            "PK": f"USER#{self.id}",
+            "SK": "USEREVENTCOUNT",
+            "hostedEvents": self.hostedEvents,
+            "attendedEvents": self.attendedEvents,
         }
-    
 
 
 class EventInfo(BaseDynamoModel):
     """
     Event model for the application.
     """
+
     id: str
     slug: str
     title: str
     startAt: datetime
     endAt: datetime
     venue: str
-    table: ClassVar = dynamo_connector.Table(settings.aws_dynamodb_table_name_events)
     ownerId: str
+    table: ClassVar = dynamo_connector.Table(settings.aws_dynamodb_table_name_events)
 
     def to_payload(self):
         return {
-            'PK': f'EVENT#{self.id}',
-            'SK': 'EVENTINFO',
-            'slug': self.slug,
-            'title': self.title,
-            'startAt': self.startAt.strftime('%Y-%m-%d %H:%M:%S'),
-            'endAt': self.endAt.strftime('%Y-%m-%d %H:%M:%S'),
-            'venue': self.venue,
-            'ownerId': self.ownerId,
+            "PK": f"EVENT#{self.id}",
+            "SK": "EVENTINFO",
+            "slug": self.slug,
+            "title": self.title,
+            "startAt": self.startAt.strftime("%Y-%m-%d %H:%M:%S"),
+            "endAt": self.endAt.strftime("%Y-%m-%d %H:%M:%S"),
+            "venue": self.venue,
+            "ownerId": self.ownerId,
         }
+
 
 class EventMetadata(BaseDynamoModel):
     """
     Event metadata model for the application.
     """
-    id : str
+
+    id: str
     description: str
     maxCapacity: int
     table: ClassVar = dynamo_connector.Table(settings.aws_dynamodb_table_name_events)
 
     def to_payload(self):
-        return{
-            'PK': f'EVENT#{self.id}',
-            'SK': 'EVENTMETADATA',
-            'description': self.description,
-            'maxCapacity': self.maxCapacity,
+        return {
+            "PK": f"EVENT#{self.id}",
+            "SK": "EVENTMETADATA",
+            "description": self.description,
+            "maxCapacity": self.maxCapacity,
         }
+
 
 class EventAttendee(BaseDynamoModel):
     """
     Event attendee model for the application.
     """
+
     id: str
     userId: str
     table: ClassVar = dynamo_connector.Table(settings.aws_dynamodb_table_name_events)
 
     def to_payload(self):
         return {
-            'PK': f'EVENT#{self.id}',
-            'SK': 'EVENTATTENDEE',
-            'userId': str(self.userId),
+            "PK": f"EVENT#{self.id}",
+            "SK": "EVENTATTENDEE",
+            "userId": str(self.userId),
         }

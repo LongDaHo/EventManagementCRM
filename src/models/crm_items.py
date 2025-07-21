@@ -2,12 +2,15 @@ from datetime import datetime
 from typing import Optional
 
 from models.base import BaseInputModel
-from models.dynamo_items import UserPersonalInfo, UserProfessionalInfo, EventInfo, EventAttendee, EventMetadata
+from models.dynamo_items import (EventAttendee, EventInfo, EventMetadata,
+                                 UserPersonalInfo, UserProfessionalInfo)
+
 
 class User(BaseInputModel):
     """
     User model for the application.
     """
+
     id: str
     firstName: str
     lastName: str
@@ -28,7 +31,7 @@ class User(BaseInputModel):
             phoneNumber=self.phoneNumber,
             email=self.email,
             avatar=self.avatar,
-            gender=self.gender
+            gender=self.gender,
         )
         user_professional_info = UserProfessionalInfo(
             id=self.id,
@@ -38,11 +41,13 @@ class User(BaseInputModel):
             state=self.state,
         )
         return user_personal_info, user_professional_info
-    
+
+
 class Event(BaseInputModel):
     """
     Event model for the application.
     """
+
     id: str
     slug: str
     title: str
@@ -71,9 +76,12 @@ class Event(BaseInputModel):
             description=self.description,
             maxCapacity=self.maxCapacity,
         )
-        event_attendees = [EventAttendee(
-            id=self.id,
-            userId=attendee,
-        ) for attendee in self.hosts]   
+        event_attendees = [
+            EventAttendee(
+                id=self.id,
+                userId=attendee,
+            )
+            for attendee in self.hosts
+        ]
 
-        return event_info, event_metadata, event_attendees 
+        return event_info, event_metadata, event_attendees

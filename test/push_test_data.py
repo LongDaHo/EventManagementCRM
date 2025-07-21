@@ -1,7 +1,8 @@
-import requests
 from datetime import datetime, timedelta
 
-BASE_URL = "http://localhost:8000"  
+import requests
+
+BASE_URL = "http://localhost:8000"
 
 # Test users list
 users = [
@@ -16,7 +17,7 @@ users = [
         "jobTitle": "Developer",
         "company": "ABC Corp",
         "city": "Hanoi",
-        "state": "HN"
+        "state": "HN",
     },
     {
         "id": "user2",
@@ -29,7 +30,7 @@ users = [
         "jobTitle": "Designer",
         "company": "XYZ Ltd",
         "city": "HCM",
-        "state": "SG"
+        "state": "SG",
     },
     {
         "id": "user3",
@@ -42,7 +43,7 @@ users = [
         "jobTitle": "Product Manager",
         "company": "Tech Innovators",
         "city": "Hanoi",
-        "state": "HN"
+        "state": "HN",
     },
     {
         "id": "user4",
@@ -55,8 +56,8 @@ users = [
         "jobTitle": "Marketing Specialist",
         "company": "Creative Minds",
         "city": "HCM",
-        "state": "SG"
-    }
+        "state": "SG",
+    },
 ]
 
 # Test events list
@@ -71,7 +72,7 @@ events = [
         "venue": "Hall A",
         "maxCapacity": 100,
         "owner": "user1",
-        "hosts": ["user1", "user2", "user3", "user4"]
+        "hosts": ["user1", "user2", "user3", "user4"],
     },
     {
         "id": "event2",
@@ -83,19 +84,22 @@ events = [
         "venue": "Hall B",
         "maxCapacity": 50,
         "owner": "user2",
-        "hosts": ["user2", "user3", "user4"]
-    }
+        "hosts": ["user2", "user3", "user4"],
+    },
 ]
+
 
 def push_users():
     for user in users:
         res = requests.post(f"{BASE_URL}/users/create-user", json=user)
         print(f"Create user {user['id']}: {res.status_code} - {res.json()}")
 
+
 def push_events():
     for event in events:
         res = requests.post(f"{BASE_URL}/events/create-event", json=event)
         print(f"Create event {event['id']}: {res.status_code} - {res.json()}")
+
 
 if __name__ == "__main__":
     push_users()

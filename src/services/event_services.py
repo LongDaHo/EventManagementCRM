@@ -1,9 +1,11 @@
 from models.crm_items import Event
-from models.dynamo_items import EventInfo, EventMetadata, EventAttendee
-from services.user_services import update_user_hosted_events, update_user_attended_events
+from models.dynamo_items import EventAttendee, EventInfo, EventMetadata
+from services.user_services import (update_user_attended_events,
+                                    update_user_hosted_events)
 from utils.logger_utils import get_logger
 
 logger = get_logger(__name__)
+
 
 async def create_event(event: Event):
     logger.info(f"Creating event: {event}")
@@ -18,5 +20,3 @@ async def create_event(event: Event):
         EventAttendee.put_item(attendee.to_payload())
         update_user_attended_events(str(attendee.userId))
         logger.info(f"Event attendee: {attendee}")
-
-
