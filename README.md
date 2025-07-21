@@ -43,7 +43,6 @@ A FastAPI-based backend service integrated with DynamoDB and AWS SES. The projec
 │   ├── main.py                      # FastAPI app entry point
 │   └── config.py                    # Application configuration
 ├── test
-│   ├── push_test_data copy.py       # Backup or alternative test data script
 │   ├── push_test_data.py            # Inserts mock data into DynamoDB
 │   ├── create_user_table.py         # Creates user table in DynamoDB
 │   ├── create_event_table.py        # Creates event table in DynamoDB
