@@ -173,7 +173,7 @@ async def update_user_attended_events(user_id: str):
     UserEventCount.update_item(
         key=f"USER#{user_id}",
         sort_key="USEREVENTCOUNT",
-        update_expression="SET attendedEvents = :start + :inc",
+        update_expression="SET attendedEvents = if_not_exists(attendedEvents, :start) + :inc",
         expression_attribute_values={":start": 0, ":inc": 1},
     )
 
